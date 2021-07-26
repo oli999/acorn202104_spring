@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.gura.spring03.member.dao.MemberDao;
 import com.gura.spring03.member.dto.MemberDto;
@@ -45,7 +46,34 @@ public class MemberController {
 		// /WEB-INF/views/member/list.jsp 페이지로 forward 이동해서 응답하기 
 		return "member/list";
 	}
+	
+	//회원 추가 폼 요청 처리
+	@RequestMapping("/member/insertform")
+	public String insertform() {
+		//회원 추가 폼으로 forward 이동만 시켜주면 된다. 
+		return "member/insertform";
+	}
+	
+	//회원 추가 요청 처리
+	@RequestMapping("/member/insert")
+	public ModelAndView insert(MemberDto dto, ModelAndView mView) {
+		//폼전송된 파라미터가 MemberDto 객체에 담겨서 전달된다.
+		dao.insert(dto);
+		
+		// ModelAndView 객체에 msg 라는 키값으로 문자열을 담고 
+		mView.addObject("msg", "회원 한명의 정보를 추가 했습니다.");
+		// view page 정보를 담고 
+		mView.setViewName("member/alert");
+		// ModelAndView 객체를 리턴해 준다. 
+		return mView;
+	}
 }
+
+
+
+
+
+
 
 
 
