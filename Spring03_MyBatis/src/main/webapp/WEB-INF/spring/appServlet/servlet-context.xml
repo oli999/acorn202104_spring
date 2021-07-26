@@ -47,10 +47,25 @@
 		SqlSessionTemplate(SqlSession) 객체 
 		Dao 가 의존하는 객체 
 	-->
-	<beans:bean class="org.mybatis.spring.SqlSessionTemplate">
+	<beans:bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 		<beans:constructor-arg name="sqlSessionFactory" 
 			ref="sessionFactory"/>
 	</beans:bean>
+	
+	
+	
+	<!-- 
+		위의 bean 설정을 java code 로 환산 하면 아래와 같다 
+		
+		dataSource = new JndiObjectFactoryBean();
+		dataSource.setJndiName("java:comp/env/jdbc/myoracle");
+		
+		sessionFactory=new SqlSessionFactoryBean();
+		sessionFactory.setDataSource(dataSource);
+		sessionFactory.setConfigLocation("classpath:com/gura/xxx");
+		
+		new SqlSessionTemplate(sessionFactory);
+	 -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
@@ -63,9 +78,19 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
-	
+	<!-- 
+		com.gura.spring03 페키지를 포함해서 하위에 모든 페키지를 scan 해서
+		bean 으로 만들것을 찾아서 만들고 spring bean container 에서 관리하기
+		
+		@Controller, @Service, @Repository, @Component 등등의 어노테이션이 
+		붙어 있는 클래스로 bean 을 만든다. 
+		
+	 -->
 	<context:component-scan base-package="com.gura.spring03" />
 	
-	
-	
 </beans:beans>
+
+
+
+
+
