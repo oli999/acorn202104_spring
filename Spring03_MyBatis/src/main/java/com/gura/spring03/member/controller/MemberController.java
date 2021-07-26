@@ -67,6 +67,33 @@ public class MemberController {
 		// ModelAndView 객체를 리턴해 준다. 
 		return mView;
 	}
+	
+	//회원 수정 폼 요청 처리
+	@RequestMapping("/member/updateform")
+	public ModelAndView updateform(@RequestParam int num, ModelAndView mView) {
+		//회원 한명의 정보를 얻어와서 
+		MemberDto dto=dao.getData(num);
+		//ModelAndView 객체에 dto 라는 키값으로 담고
+		mView.addObject("dto", dto);
+		//view page 정보도 담고
+		mView.setViewName("member/updateform");
+		//ModelAndView 객체를 리턴해 준다. 
+		return mView;
+	}
+	
+	//회원 정보 수정 요청 처리
+	@RequestMapping("/member/update")
+	public ModelAndView update(MemberDto dto, ModelAndView mView) {
+		//회원정보를 수정하고 
+		dao.update(dto);
+		
+		//ModelAndView 에 msg 라는 키값으로 메세지를 담고 
+		mView.addObject("msg", dto.getNum()+" 번 회원의 정보를 수정했습니다.");
+		// view page 정보도 담아서 
+		mView.setViewName("member/alert");
+		//리턴해 준다. 
+		return mView;
+	}
 }
 
 

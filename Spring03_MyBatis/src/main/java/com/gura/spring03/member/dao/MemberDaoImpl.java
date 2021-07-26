@@ -17,7 +17,11 @@ public class MemberDaoImpl implements MemberDao{
 	
 	@Override
 	public List<MemberDto> getList() {
-		
+		/*
+		 *  Mapper's namespace : member
+		 *  sql's id : getList
+		 *  resultType : MemberDto 
+		 */
 		List<MemberDto> list=session.selectList("member.getList");
 		
 		return list;
@@ -41,6 +45,28 @@ public class MemberDaoImpl implements MemberDao{
 		 *  parameterType : MemberDto
 		 */
 		session.insert("member.insert", dto);
+	}
+
+	@Override
+	public MemberDto getData(int num) {
+		/*
+		 *  Mapper's namespace : member
+		 *  sql's id : getData
+		 *  parameterType : int
+		 *  resultType : MemberDto
+		 */
+		MemberDto dto=session.selectOne("member.getData", num);
+		return dto;
+	}
+
+	@Override
+	public void update(MemberDto dto) {
+		/*
+		 * Mapper's namespace : member
+		 * sql's id : update
+		 * parameterType : MemberDto
+		 */
+		session.update("member.update", dto);
 	}
 
 }

@@ -18,6 +18,18 @@
 		(num, name, addr)
 		VALUES(member_seq.NEXTVAL, #{name }, #{addr })
 	</insert>
+	
+	<select id="getData" parameterType="int" resultType="com.gura.spring03.member.dto.MemberDto">
+		SELECT num, name, addr
+		FROM member
+		WHERE num=#{num }
+	</select>
+	
+	<update id="update" parameterType="com.gura.spring03.member.dto.MemberDto">
+		UPDATE member
+		SET name=#{name }, addr=#{addr }
+		WHERE num=#{num }
+	</update>
 </mapper>
 
 
