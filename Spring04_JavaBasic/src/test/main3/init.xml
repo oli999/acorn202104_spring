@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Car 객체의 생성자로 전달할 객체도 bean 으로 만들고 e1 이라는 이름을 부여한다.  -->
+	<bean id="e1" class="test.auto.Engine"></bean>
+	
+	<!-- Car 객체를 bean 으로 만들고자 한다면? -->
+	<bean class="test.auto.Car">
+		<constructor-arg name="engine" ref="e1"/>
+	</bean>
+	
+	<!-- Sedan 객체를 bean 으로 만들고  3가지 setter 메소드를 호출하면서 적절한 값을 넣어보기  -->
+	<bean class="test.auto.Sedan">
+		<property name="name" value="소나타"/>
+		<property name="weight" value="2000"/>
+		<property name="engine" ref="e1"/>
+	</bean>
+</beans>
+
+
+
+
+
