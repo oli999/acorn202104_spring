@@ -8,12 +8,24 @@ import java.util.Map;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gura.spring03.member.dto.MemberDto;
 
 @Controller
 public class JSONTestController {
+	
+	@RequestMapping("/send")
+	@ResponseBody
+	public Map<String, Object> send(@RequestParam String msg) {
+		//전송된 파라미터를 콘솔창에 출력하고 
+		System.out.println("msg:"+msg);
+		// {"isSuccess":true} 형식의 json 문자열을 출력하기 위한 Map 객체 구성 
+		Map<String, Object> map=new HashMap<>();
+		map.put("isSuccess", true);
+		return map;
+	}
 	
 	// GET 방식  /json01.do 요청이 왔을때 호출되는 메소드 
 	@RequestMapping(value = "/json01", method = RequestMethod.GET)
