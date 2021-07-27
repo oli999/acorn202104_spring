@@ -18,6 +18,11 @@
 		<li><a href="json03.do">json 문자열 응답03</a></li>
 		<li><a href="json04.do">json 문자열 응답04</a></li>
 		<li><a href="json05.do">json 문자열 응답05</a></li>
+		<li><a href="json06.do">json 문자열 응답06</a></li>
+		<li><a href="json07.do">json 문자열 응답07</a></li>
+		<li><a href="xml01.do">xml 문자열 응답01</a></li>
+		<li><a href="xml02.do">xml 문자열 응답02</a></li>
+		<li><a href="xml03.do">xml 문자열 응답03</a></li>
 	</ul>
 	<h2>공지사항</h2>
 	<ul>

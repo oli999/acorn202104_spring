@@ -67,6 +67,45 @@ public class JSONTestController {
 		
 		return names;
 	}
+	
+	@RequestMapping("/json06")
+	@ResponseBody
+	public List<Map<String, Object>> json06(){
+		List<Map<String, Object>> list=new ArrayList<>();
+		
+		Map<String, Object> map=new HashMap<>();
+		map.put("num",1);
+		map.put("name", "김구라");
+		map.put("isMan",true);
+		
+		Map<String, Object> map2=new HashMap<>();
+		map2.put("num",2);
+		map2.put("name", "해골");
+		map2.put("isMan",false);
+		
+		list.add(map);
+		list.add(map2);
+		
+		return list;
+	}
+	
+	@RequestMapping("/json07")
+	@ResponseBody
+	public List<MemberDto> json07(){
+		//ArrayList 객체를 생성해서 
+		List<MemberDto> list=new ArrayList<>();
+		
+		//MemberDto 객체에 각각의 정보를 담고 
+		MemberDto dto=new MemberDto(1, "김구라", "노량진");
+		MemberDto dto2=new MemberDto(2, "해골", "행신동");
+		
+		//ArrayList 에 MemberDto 객체를 저장하고 
+		list.add(dto);
+		list.add(dto2);
+		
+		//ArrayList 객체의 참조값 리턴 
+		return list;
+	}
 }
 
 
