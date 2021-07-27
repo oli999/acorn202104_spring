@@ -16,5 +16,18 @@
 		<br />
 		<button type="submit">업로드</button>
 	</form>
+	
+	<h1>파일 업로드 테스트2</h1>
+	<form action="upload2.do" method="post" enctype="multipart/form-data">
+		제목 <input type="text" name="title"/>
+		<br />
+		첨부 파일 <input type="file" name="myFile"/>
+		<br />
+		<button type="submit">업로드</button>
+	</form>
+	
 </body>
 </html>
+
+
+
