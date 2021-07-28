@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="users">
+	<select id="isExist" parameterType="java.lang.String" resultType="string">
+		SELECT id 
+		FROM users
+		WHERE id=#{id}
+	</select>
+	
+	<insert id="insert" parameterType="com.gura.spring05.users.dto.UsersDto">
+		INSERT INTO users
+		(id, pwd, email, regdate)
+		VALUES(#{id }, #{pwd }, #{email }, SYSDATE)
+	</insert>
+</mapper>
+
+
+
+
+
+

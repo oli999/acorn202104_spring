@@ -10,7 +10,7 @@
 <body>
 <div class="container">
 	<h1>회원 가입 폼 입니다.</h1>
-	<form action="signup.jsp" method="post" id="myForm">
+	<form action="${pageContext.request.contextPath}/users/signup.do" method="post" id="myForm">
 		<div>
 			<label class="control-label" for="id">아이디</label>
 			<input class="form-control" type="text" name="id" id="id"/>
@@ -61,7 +61,7 @@
 		}
 		
 		//2. util 에 있는 함수를 이용해서 ajax 요청하기
-		ajaxPromise("checkid.jsp", "get", "inputId="+inputId)
+		ajaxPromise("${pageContext.request.contextPath}/users/checkid.do", "get", "inputId="+inputId)
 		.then(function(response){
 			return response.json();
 		})
