@@ -5,7 +5,7 @@
 	<select id="getList" resultType="com.gura.spring03.member.dto.MemberDto">
 		SELECT num,name,addr
 		FROM member
-		ORDER BY num ASC
+		ORDER BY num DESC
 	</select>
 	
 	<delete id="delete" parameterType="int">

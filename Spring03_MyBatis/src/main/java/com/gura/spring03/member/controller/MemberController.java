@@ -10,9 +10,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.gura.spring03.member.dao.MemberDao;
 import com.gura.spring03.member.dto.MemberDto;
-
+import com.gura.spring03.member.service.MemberService;
+/*
+ *  [ 컨트롤러에서 하는 작업 ]
+ *  
+ *  1. 전송된 파라미터 추출 가능
+ *  2. 특정 요청이 왔을때 서비스를 이용해서 비즈니스 로직을 처리하고 forward, 혹은 redirect 이동한다.
+ *  3. HttpServletRequest, HttpServletResponse, HttpSession, ModelAndView 등의 
+ *     객체가 필요하면 메소드의 인자로 전달 받는다.
+ */
 @Controller
 public class MemberController {
 	/*
@@ -22,29 +29,27 @@ public class MemberController {
 	 */
 	
 	@Autowired
-	private MemberDao dao;
+	private MemberService service;
 	
 	
 	//회원 한명의 정보를 삭제하는 메소드
 	@RequestMapping("/member/delete")
 	public String delete(@RequestParam int num) {
-		//회원정보 삭제하고 
-		dao.delete(num);
+		service.deleteMember(num);
 		//리다일렉트 이동
 		return "redirect:/member/list.do";
 	}
 	
 	
 	@RequestMapping("/member/list")
-	public String list(HttpServletRequest request) {
-		//회원 목록은 MemberDaoImpl 객체를 이용해서 얻어와서 request 담아 준다. 
+	public ModelAndView list(ModelAndView mView) {
+		//MemberService 에 ModelAndView 객체의 참조값을 전달해서 회원 목록이 담기게 한다. 
+		service.getListMember(mView);
 		
-		List<MemberDto> list=dao.getList();
-		
-		request.setAttribute("list", list);
-		
-		// /WEB-INF/views/member/list.jsp 페이지로 forward 이동해서 응답하기 
-		return "member/list";
+		//ModelAndView 객체에 view page 의 정보를 담고 
+		mView.setViewName("member/list");
+		//리턴해준다. 
+		return mView;
 	}
 	
 	//회원 추가 폼 요청 처리
@@ -58,7 +63,7 @@ public class MemberController {
 	@RequestMapping("/member/insert")
 	public ModelAndView insert(MemberDto dto, ModelAndView mView) {
 		//폼전송된 파라미터가 MemberDto 객체에 담겨서 전달된다.
-		dao.insert(dto);
+		service.addMember(dto);
 		
 		// ModelAndView 객체에 msg 라는 키값으로 문자열을 담고 
 		mView.addObject("msg", "회원 한명의 정보를 추가 했습니다.");
@@ -71,10 +76,8 @@ public class MemberController {
 	//회원 수정 폼 요청 처리
 	@RequestMapping("/member/updateform")
 	public ModelAndView updateform(@RequestParam int num, ModelAndView mView) {
-		//회원 한명의 정보를 얻어와서 
-		MemberDto dto=dao.getData(num);
-		//ModelAndView 객체에 dto 라는 키값으로 담고
-		mView.addObject("dto", dto);
+		//MemberService 를 이용해서 ModelAndView 객체에 회원 한명의 정보가 담기게 한다.
+		service.getMember(num, mView);
 		//view page 정보도 담고
 		mView.setViewName("member/updateform");
 		//ModelAndView 객체를 리턴해 준다. 
@@ -85,7 +88,7 @@ public class MemberController {
 	@RequestMapping("/member/update")
 	public ModelAndView update(MemberDto dto, ModelAndView mView) {
 		//회원정보를 수정하고 
-		dao.update(dto);
+		service.updateMember(dto);
 		
 		//ModelAndView 에 msg 라는 키값으로 메세지를 담고 
 		mView.addObject("msg", dto.getNum()+" 번 회원의 정보를 수정했습니다.");
