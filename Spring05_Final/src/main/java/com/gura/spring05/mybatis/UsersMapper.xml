@@ -12,6 +12,13 @@
 		(id, pwd, email, regdate)
 		VALUES(#{id }, #{pwd }, #{email }, SYSDATE)
 	</insert>
+	
+	<select id="getData" parameterType="string" 
+		resultType="com.gura.spring05.users.dto.UsersDto">
+		SELECT id, pwd, email, profile, regdate
+		FROM users
+		WHERE id=#{id }
+	</select>
 </mapper>
 
 

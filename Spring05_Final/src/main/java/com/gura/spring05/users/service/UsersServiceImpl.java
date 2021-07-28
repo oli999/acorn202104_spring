@@ -3,9 +3,13 @@ package com.gura.spring05.users.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.gura.spring05.users.dao.UsersDao;
 import com.gura.spring05.users.dto.UsersDto;
@@ -37,6 +41,27 @@ public class UsersServiceImpl implements UsersService{
 		dto.setPwd(encodedPwd);
 		
 		dao.insert(dto);
+	}
+
+	@Override
+	public void loginProcess(UsersDto dto, HttpSession session) {
+		//입력한 정보가 맞는여부
+		boolean isValid=false;
+		
+		//1. 로그인 폼에 입력한 아이디를 이용해서 해당 정보를 select 해 본다. 
+		UsersDto result=dao.getData(dto.getId());
+		if(result != null) {//만일 존재하는 아이디 라면
+			//비밀번호가 일치하는지 확인한다.
+			String encodedPwd=result.getPwd(); //DB 에 저장된 암호화된 비밀번호 
+			String inputPwd=dto.getPwd(); //로그인폼에 입력한 비밀번호
+			//Bcrypt 클래스의 static 메소드를 이용해서 일치 여부를 얻어낸다.
+			isValid=BCrypt.checkpw(inputPwd, encodedPwd);
+		}
+		
+		if(isValid) {//만일 유효한 정보이면 
+			//로그인 처리를 한다.
+			session.setAttribute("id", dto.getId());
+		}
 	}
 	
 }
