@@ -21,6 +21,23 @@ public class UsersController {
 	@Autowired
 	private UsersService service;
 	
+	@RequestMapping("/users/private/info")
+	public ModelAndView info(HttpSession session, ModelAndView mView) {
+		
+		service.getInfo(session, mView);
+		
+		mView.setViewName("users/info");
+		return mView;
+	}
+	
+	
+	@RequestMapping("/users/logout")
+	public String logout(HttpSession session) {
+		//세션에서 id 라는 키값으로 저장된 값 삭제 
+		session.removeAttribute("id");
+		return "users/logout";
+	}
+	
 	@RequestMapping(value = "/users/signup_form", method = RequestMethod.GET)
 	public String signupForm() {
 		
@@ -54,7 +71,11 @@ public class UsersController {
 	@RequestMapping("/users/login")
 	public ModelAndView login(ModelAndView mView, UsersDto dto,
 			@RequestParam String url, HttpSession session) {
-		
+		/*
+		 *  서비스에서 비즈니스 로직을 처리할때 필요로  하는 객체를 컨트롤러에서 직접 전달을 해 주어야 한다.
+		 *  주로, HttpServletRequest, HttpServletResponse, HttpSession, ModelAndView
+		 *  등등의 객체 이다. 
+		 */
 		service.loginProcess(dto, session);
 		
 		String encodedUrl=URLEncoder.encode(url);
