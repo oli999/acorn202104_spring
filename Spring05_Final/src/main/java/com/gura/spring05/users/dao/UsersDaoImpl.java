@@ -35,6 +35,11 @@ public class UsersDaoImpl implements UsersDao{
 		// 존재하지 않은 아이디면 null 이 리턴된다. 
 		return session.selectOne("users.getData", id);
 	}
+
+	@Override
+	public void updatePwd(UsersDto dto) {
+		session.update("users.pwdUpdate", dto);
+	}
 	
 }
 

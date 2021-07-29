@@ -40,7 +40,6 @@ public class LoginFilter implements Filter{
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
-		
 	}
 	//필터가 동작될때 호출되는 메소드 
 	@Override
