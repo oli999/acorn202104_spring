@@ -3,6 +3,7 @@ package com.gura.spring05.users.controller;
 import java.net.URLEncoder;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gura.spring05.users.dto.UsersDto;
@@ -20,6 +22,17 @@ import com.gura.spring05.users.service.UsersService;
 public class UsersController {
 	@Autowired
 	private UsersService service;
+	
+	//ajax 프로필 사진 업로드 요청처리
+	@RequestMapping(value = "/users/private/ajax_profile_upload",
+			method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> ajaxProfileUpload(HttpServletRequest request,
+			@RequestParam MultipartFile image){
+		
+		//서비스를 이용해서 이미지를 upload 폴더에 저장하고 리턴되는 Map 을 리턴해서 json 문자열 응답하기
+		return service.saveProfileImage(request, image);
+	}
 	
 	//회원정보 수정폼 요청처리
 	@RequestMapping("/users/private/updateform")
