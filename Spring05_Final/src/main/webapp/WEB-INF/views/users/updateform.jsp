@@ -38,7 +38,7 @@
 	</a>
 	<form action="${pageContext.request.contextPath}/users/private/update.do" method="post">
 		<input type="hidden" name="profile" 
-			value="${ empty dto.profile ? 'empty' : dto.profile}"/>
+			value="${ empty dto.profile ? '' : dto.profile}"/>
 		<div>
 			<label for="id">아이디</label>
 			<input type="text" id="id" value="${id }" disabled/>
