@@ -7,26 +7,25 @@
 		WHERE id=#{id}
 	</select>
 	
-	<insert id="insert" parameterType="com.gura.spring05.users.dto.UsersDto">
+	<insert id="insert" parameterType="usersDto">
 		INSERT INTO users
 		(id, pwd, email, regdate)
 		VALUES(#{id }, #{pwd }, #{email }, SYSDATE)
 	</insert>
 	
-	<select id="getData" parameterType="string" 
-		resultType="com.gura.spring05.users.dto.UsersDto">
+	<select id="getData" parameterType="string" resultType="usersDto">
 		SELECT id, pwd, email, profile, regdate
 		FROM users
 		WHERE id=#{id }
 	</select>
 	
-	<update id="pwdUpdate" parameterType="com.gura.spring05.users.dto.UsersDto">
+	<update id="pwdUpdate" parameterType="usersDto">
 		UPDATE users
 		SET pwd=#{newPwd }
 		WHERE id=#{id }
 	</update>
 	
-	<update id="update" parameterType="com.gura.spring05.users.dto.UsersDto">
+	<update id="update" parameterType="usersDto">
 		UPDATE users
 		SET email=#{email }, profile=#{profile }
 		WHERE id=#{id }
