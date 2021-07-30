@@ -19,6 +19,7 @@ public interface UsersService {
 	public void updateUserPwd(HttpSession session, UsersDto dto, ModelAndView mView);
 	public Map<String, Object> saveProfileImage(HttpServletRequest request, 
 			MultipartFile mFile);
+	public void updateUser(UsersDto dto, HttpSession session);
 }
 
 

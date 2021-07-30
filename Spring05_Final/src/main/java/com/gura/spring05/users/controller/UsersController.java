@@ -23,6 +23,15 @@ public class UsersController {
 	@Autowired
 	private UsersService service;
 	
+	//개인정보 수정 반영 요청 처리
+	@RequestMapping(value = "/users/private/update", method=RequestMethod.POST)
+	public String update(UsersDto dto, HttpSession session) {
+		//서비스를 이용해서 개인정보를 수정하고 
+		service.updateUser(dto, session);
+		//개인정보 보기로 리다일렉트 이동 시틴다
+		return "redirect:/users/private/info.do";
+	}
+	
 	//ajax 프로필 사진 업로드 요청처리
 	@RequestMapping(value = "/users/private/ajax_profile_upload",
 			method=RequestMethod.POST)

@@ -141,6 +141,20 @@ public class UsersServiceImpl implements UsersService{
 		
 		return map;
 	}
+
+	@Override
+	public void updateUser(UsersDto dto, HttpSession session) {
+		//수정할 회원의 아이디
+		String id=(String)session.getAttribute("id");
+		//UsersDto 에 아이디도 담아 주고
+		dto.setId(id);
+		//만일 프로필 사진을 수정하지 않았으면 
+		if(dto.getProfile().equals("empty")) {
+			dto.setProfile(null); //프로필 사진을 선택하지 않았다는 의미에서 null 을 대입한다.
+		}
+		//UsersDao 를 이용해서 수정 반영한다.
+		dao.update(dto);
+	}
 	
 }
 

@@ -25,6 +25,12 @@
 		SET pwd=#{newPwd }
 		WHERE id=#{id }
 	</update>
+	
+	<update id="update" parameterType="com.gura.spring05.users.dto.UsersDto">
+		UPDATE users
+		SET email=#{email }, profile=#{profile }
+		WHERE id=#{id }
+	</update>
 </mapper>
 
 
