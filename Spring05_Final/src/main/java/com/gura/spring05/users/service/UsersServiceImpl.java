@@ -151,6 +151,18 @@ public class UsersServiceImpl implements UsersService{
 		//UsersDao 를 이용해서 수정 반영한다.
 		dao.update(dto);
 	}
+
+	@Override
+	public void deleteUser(HttpSession session, ModelAndView mView) {
+		//로그인된 아이디를 얻어와서 
+		String id=(String)session.getAttribute("id");
+		//해당 정보를 DB 에서 삭제하고
+		dao.delete(id);
+		//로그아웃 처리도 한다.
+		session.removeAttribute("id");
+		//ModelAndView 객체에 탈퇴한 회원의 아이디를 담아준다.
+		mView.addObject("id", id);
+	}
 	
 }
 

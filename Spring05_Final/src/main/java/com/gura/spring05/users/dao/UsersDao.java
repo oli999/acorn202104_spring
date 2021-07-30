@@ -13,4 +13,6 @@ public interface UsersDao {
 	public void updatePwd(UsersDto dto);
 	//개인정보를 수정하는 메소드
 	public void update(UsersDto dto);
+	//회원 정보를 삭제하는 메소드
+	public void delete(String id);
 }
