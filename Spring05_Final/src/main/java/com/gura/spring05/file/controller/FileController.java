@@ -49,6 +49,16 @@ public class FileController {
 		return mView;
 	}
 	
+	//파일 삭제 요청 처리
+	@RequestMapping("/file/private/delete")
+	public ModelAndView delete(@RequestParam int num,
+			ModelAndView mView, HttpServletRequest request) {
+		
+		service.deleteFile(num, request);
+		
+		mView.setViewName("redirect:/file/list.do");
+		return mView;
+	}
 }
 
 
