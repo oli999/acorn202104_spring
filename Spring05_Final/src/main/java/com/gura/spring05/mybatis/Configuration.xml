@@ -6,9 +6,13 @@
 	<!-- 자주 사용하는 type 의 별칭을 등록 해 놓고  Mapper xml 에서 사용할수 있다. -->
 	<typeAliases>
 		<typeAlias type="com.gura.spring05.users.dto.UsersDto" alias="usersDto"/>
+		<typeAlias type="com.gura.spring05.file.dto.FileDto" alias="fileDto"/>
 		
 	</typeAliases>
+	<!-- 필요한 Mapper xml 등록하기  -->
 	<mappers>
 		<mapper resource="com/gura/spring05/mybatis/UsersMapper.xml"/>
+		<mapper resource="com/gura/spring05/mybatis/FileMapper.xml"/>
+		
 	</mappers>
 </configuration>

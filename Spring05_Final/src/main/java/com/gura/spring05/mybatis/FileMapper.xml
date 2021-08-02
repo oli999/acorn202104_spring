@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="file">
+	<select id="getList" parameterType="fileDto" resultType="fileDto">
+		SELECT *
+		FROM
+			(SELECT result1.*, ROWNUM AS rnum
+			FROM
+				(SELECT num,writer,title,orgFileName,saveFileName,
+					fileSize,regdate
+				FROM board_file
+				<choose>
+					<when test="title != null and orgFileName != null">
+						WHERE title LIKE '%${title}%' 
+						OR orgFileName LIKE '%'||#{orgFileName}||'%'
+					</when>
+					<when test="title != null">
+						WHERE title LIKE '%'||#{title}||'%'
+					</when>
+					<when test="writer != null">
+						WHERE writer LIKE '%${writer}%'
+					</when>
+				</choose>
+				ORDER BY num DESC) result1)
+		WHERE rnum BETWEEN #{startRowNum} AND ${endRowNum}
+	</select>
+	
+	<select id="getCount" parameterType="fileDto" resultType="int">
+		SELECT NVL(MAX(ROWNUM), 0)
+		FROM board_file
+		<choose>
+			<when test="title != null and orgFileName != null">
+				WHERE title LIKE '%${title}%' 
+				OR orgFileName LIKE '%'||#{orgFileName}||'%'
+			</when>
+			<when test="title != null">
+				WHERE title LIKE '%'||#{title}||'%'
+			</when>
+			<when test="writer != null">
+				WHERE writer LIKE '%${writer}%'
+			</when>
+		</choose>		
+	</select>
+
+	<insert id="insert" parameterType="fileDto">
+		INSERT INTO board_file
+		(num, writer, title, orgFileName, saveFileName, fileSize, regdate)
+		VALUES(board_file_seq.NEXTVAL, #{writer}, #{title}, 
+			#{orgFileName}, #{saveFileName}, #{fileSize}, SYSDATE)
+	</insert>
+	
+	<select id="getData" parameterType="int" resultType="fileDto">
+		SELECT num,writer,title,orgFileName,saveFileName,fileSize,regdate
+		FROM board_file
+		WHERE num=#{num}
+	</select>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM board_file
+		WHERE num=#{num}
+	</delete>	
+</mapper>
+
+
+
+
+
+
