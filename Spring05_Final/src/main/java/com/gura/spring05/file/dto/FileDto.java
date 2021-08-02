@@ -1,5 +1,7 @@
 package com.gura.spring05.file.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class FileDto {
 	private int num;
 	private String writer;
@@ -14,11 +16,14 @@ public class FileDto {
 	//페이징 처리를 위한 필드
 	private int startRowNum;
 	private int endRowNum;
+	//파일 업로드 처리를 하기 위한 필드
+	private MultipartFile myFile;
 	
+	//디폴트 생성자 
 	public FileDto() {}
 
 	public FileDto(int num, String writer, String title, String orgFileName, String saveFileName, long fileSize,
-			String regdate, int startRowNum, int endRowNum) {
+			String regdate, int startRowNum, int endRowNum, MultipartFile myFile) {
 		super();
 		this.num = num;
 		this.writer = writer;
@@ -29,6 +34,7 @@ public class FileDto {
 		this.regdate = regdate;
 		this.startRowNum = startRowNum;
 		this.endRowNum = endRowNum;
+		this.myFile = myFile;
 	}
 
 	public int getNum() {
@@ -102,6 +108,15 @@ public class FileDto {
 	public void setEndRowNum(int endRowNum) {
 		this.endRowNum = endRowNum;
 	}
+
+	public MultipartFile getMyFile() {
+		return myFile;
+	}
+
+	public void setMyFile(MultipartFile myFile) {
+		this.myFile = myFile;
+	}
+
 	
 }
 
