@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cafe">
+	<sql id="searchCondition">
+		<choose>
+			<when test="title != null and content != null">
+				WHERE title LIKE '%'||#{title}||'%' 
+				OR content LIKE '%'||#{content}||'%'
+			</when>
+			<when test="title != null">
+				WHERE title LIKE '%'||#{title}||'%'
+			</when>
+			<when test="writer != null">
+				WHERE writer LIKE '%'||#{writer}||'%'
+			</when>
+		</choose>
+	</sql>
+
+	<select id="getList" parameterType="cafeDto" resultType="cafeDto">
+		SELECT *
+		FROM
+			(SELECT result1.*, ROWNUM AS rnum
+			FROM
+				(SELECT num,writer,title,content,viewCount,regdate
+				FROM board_cafe
+				<include refid="searchCondition"/>
+				ORDER BY num DESC) result1)
+		<![CDATA[ 
+		WHERE rnum >= #{startRowNum} AND rnum <= #{endRowNum}
+		]]>
+	</select>
+	
+	<select id="getCount" parameterType="cafeDto" resultType="int">
+		SELECT NVL(MAX(ROWNUM), 0)
+		FROM board_cafe
+		<include refid="searchCondition"/>
+	</select>	
+	
+	<insert id="insert" parameterType="cafeDto">
+		INSERT INTO board_cafe
+		(num,writer,title,content,viewCount,regdate)
+		VALUES(board_cafe_seq.NEXTVAL, #{writer}, #{title},
+			#{content}, #{viewCount}, SYSDATE)
+	</insert>
+	
+	<select id="getData" parameterType="int" resultType="cafeDto">
+		SELECT result1.*
+		FROM
+			(SELECT num,writer,title,content,viewCount,
+				TO_CHAR(regdate,'YY.MM.DD HH24:MI') AS regdate,
+				LAG(num,1,0) OVER (ORDER BY num DESC) AS prevNum,
+				LEAD(num,1,0) OVER (ORDER BY num DESC) AS nextNum
+			FROM board_cafe) result1
+		WHERE num=#{num}
+			
+	</select>
+	
+	<select id="getData2" parameterType="cafeDto" resultType="cafeDto">
+		SELECT result1.*
+		FROM
+			(SELECT num,writer,title,content,viewCount,
+				TO_CHAR(regdate,'YY.MM.DD HH24:MI') AS regdate,
+				LAG(num,1,0) OVER (ORDER BY num DESC) AS prevNum,
+				LEAD(num,1,0) OVER (ORDER BY num DESC) AS nextNum
+			FROM board_cafe
+			<include refid="searchCondition"/>
+			) result1
+		WHERE num=#{num}	
+	</select>
+	
+	<update id="addViewCount" parameterType="int">
+		UPDATE board_cafe
+		SET viewCount=viewCount+1
+		WHERE num=#{num}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM board_cafe
+		WHERE num=#{num}
+	</delete>
+	
+	<update id="update" parameterType="cafeDto">
+		UPDATE board_cafe
+		SET title=#{title}, content=#{content}
+		WHERE num=#{num}
+	</update>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
