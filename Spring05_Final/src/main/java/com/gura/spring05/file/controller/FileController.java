@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.gura.spring05.file.dto.FileDto;
@@ -39,6 +40,15 @@ public class FileController {
 		
 		return mView;
 	}
+	
+	@RequestMapping("/file/download")
+	public ModelAndView download(@RequestParam int num, ModelAndView mView) {
+		service.getFileData(num, mView);
+		// 응답을 할 bean 의 이름을 설정 
+		mView.setViewName("fileDownView");
+		return mView;
+	}
+	
 }
 
 

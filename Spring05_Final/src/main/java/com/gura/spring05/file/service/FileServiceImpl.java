@@ -149,8 +149,10 @@ public class FileServiceImpl implements FileService{
 
 	@Override
 	public void getFileData(int num, ModelAndView mView) {
-		// TODO Auto-generated method stub
-		
+		//다운로드할 파일의 정보를 얻어와서 
+		FileDto dto=dao.getData(num);
+		//ModelAndView 객체에 담아준다.
+		mView.addObject("dto", dto);
 	}
 
 	@Override
