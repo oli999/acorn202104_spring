@@ -241,17 +241,16 @@ public class CafeServiceImpl implements CafeService{
 		//댓글 정보를 DB 에 저장하기
 		cafeCommentDao.insert(dto);
 	}
-
+	//댓글 삭제 로직 처리 
 	@Override
 	public void deleteComment(HttpServletRequest request) {
-		// TODO Auto-generated method stub
-		
+		int num=Integer.parseInt(request.getParameter("num"));
+		cafeCommentDao.delete(num);
 	}
-
+	//댓글 수정 로직 처리
 	@Override
 	public void updateComment(CafeCommentDto dto) {
-		// TODO Auto-generated method stub
-		
+		cafeCommentDao.update(dto);
 	}
 
 	@Override
