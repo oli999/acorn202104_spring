@@ -88,6 +88,14 @@ public class CafeController {
 		// {"isSuccess":true} 형식의 JSON 문자열이 응답되도록 한다. 
 		return map;
 	}
+	//카페글 삭제 요청 처리 
+	@RequestMapping("/cafe/private/delete")
+	public String delete(@RequestParam int num, HttpServletRequest request) {
+		
+		service.deleteContent(num, request);
+		
+		return "redirect:/cafe/list.do";
+	}
 	
 }
 
