@@ -112,11 +112,10 @@ public class CafeServiceImpl implements CafeService{
 		// TODO Auto-generated method stub
 		
 	}
-
+	//새글 저장
 	@Override
 	public void saveContent(CafeDto dto) {
-		// TODO Auto-generated method stub
-		
+		cafeDao.insert(dto);
 	}
 
 	@Override
