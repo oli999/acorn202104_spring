@@ -21,6 +21,12 @@ public class CafeController {
 		
 		return "cafe/list";
 	}
+	
+	@RequestMapping("/cafe/private/insertform")
+	public String insertForm() {
+		
+		return "cafe/insertform";
+	}
 }
 
 
