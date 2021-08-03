@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gura.spring05.cafe.dto.CafeDto;
 import com.gura.spring05.cafe.service.CafeService;
@@ -38,6 +39,21 @@ public class CafeController {
 		service.saveContent(dto);
 		
 		return "cafe/insert";
+	}
+	//글 자세히 보기 요청 처리
+	@RequestMapping("/cafe/detail")
+	public String detail(HttpServletRequest request) {
+		service.getDetail(request);
+		return "cafe/detail";
+	}
+	//새로운 댓글 저장 요청 처리
+	@RequestMapping("/cafe/private/comment_insert")
+	public String commentInsert(HttpServletRequest request, 
+			@RequestParam int ref_group) {
+		
+		service.saveComment(request);
+		
+		return "redirect:/cafe/detail.do?num="+ref_group;
 	}
 }
 
