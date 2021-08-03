@@ -25,6 +25,7 @@
 	<h1>인덱스 페이지 입니다.</h1>
 	<ul>
 		<li><a href="${pageContext.request.contextPath}/file/list.do">자료실 목록 보기</a></li>
+		<li><a href="${pageContext.request.contextPath}/cafe/list.do">카페글 목록 보기</a></li>
 	</ul>
 	
 	<h2>공지사항</h2>
