@@ -290,6 +290,7 @@ public class CafeServiceImpl implements CafeService{
 		//view page 에 필요한 값 request 에 담아주기
 		request.setAttribute("commentList", commentList);
 		request.setAttribute("num", num); //원글의 글번호
+		request.setAttribute("pageNum", pageNum); //댓글의 페이지 번호
 	}
 
 }
