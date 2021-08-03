@@ -55,6 +55,15 @@ public class CafeController {
 		
 		return "redirect:/cafe/detail.do?num="+ref_group;
 	}
+	//댓글 더보기 요청 처리
+	@RequestMapping("/cafe/ajax_comment_list")
+	public String ajaxCommentList(HttpServletRequest request) {
+		
+		service.moreCommentList(request);
+		
+		return "cafe/ajax_comment_list";
+	}
+	
 }
 
 
