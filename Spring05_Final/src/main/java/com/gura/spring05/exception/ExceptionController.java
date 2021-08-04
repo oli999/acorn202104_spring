@@ -1,8 +1,11 @@
 package com.gura.spring05.exception;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.gura.spring05.file.dao.FileDao;
 
 //예외 컨트롤러를 bean 으로 만들기 위한 어노테이션 
 @ControllerAdvice
@@ -13,7 +16,7 @@ public class ExceptionController {
 	@ExceptionHandler(NotDeleteException.class)
 	public ModelAndView notDelete(NotDeleteException nde) { //메소드의 인자로 예외 객체가 전달된다.
 		
-		//ModelAndView 객체를 생성해서 
+		//ModelAndView 객체를 생성해서 어
 		ModelAndView mView=new ModelAndView();
 		//exception 이라는 키값으로 예외 객체를 담고 
 		mView.addObject("exception", nde);
