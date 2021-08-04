@@ -97,6 +97,13 @@ public class CafeController {
 		return "redirect:/cafe/list.do";
 	}
 	
+	@RequestMapping("/cafe/private/updateform")
+	public String updateForm(HttpServletRequest request) {
+		
+		service.getData(request);
+		
+		return "cafe/updateform";
+	}
 }
 
 
