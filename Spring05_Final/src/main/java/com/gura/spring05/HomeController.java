@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
@@ -36,6 +37,21 @@ public class HomeController {
 		request.setAttribute("notice", notice);
 		//view 페이지 (jsp페이지) 로 forward 이동해서 응답 
 		return "home";
+	}
+	// aspect 테스트용 메소드 
+	@RequestMapping("/aspect/home")
+	public ModelAndView authHome(HttpServletRequest request, ModelAndView mView) {
+		//DB 에서 읽어온 공지사항이라고 가정하자 
+		List<String> notice=new ArrayList<String>();
+		notice.add("무더운 여름입니다.");
+		notice.add("더위 조심 하세요");
+		notice.add("어쩌구...");
+		notice.add("저쩌구...");
+		//공지 사항을 request 에 담기
+		request.setAttribute("notice", notice);
+		
+		mView.setViewName("home");
+		return mView;
 	}
 	
 }
