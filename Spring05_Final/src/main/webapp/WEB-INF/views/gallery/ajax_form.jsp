@@ -4,18 +4,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>/views/gallery/private/ajax_form.jsp</title>
+<title>/views/gallery/ajax_form.jsp</title>
 </head>
 <body>
 	<div class="container">
-   		<form action="${pageContext.request.contextPath}/gallery/private/insert.do" method="post" id="insertForm">
+   		<form action="${pageContext.request.contextPath}/gallery/insert.do" method="post" id="insertForm">
       		<input type="hidden" name="imagePath" id="imagePath"/>
       		<div>
          		<label for="caption">설명</label>
          		<input type="text" name="caption" id="caption"/>
       		</div>
    		</form>
-   		<form action="${pageContext.request.contextPath}/gallery/private/ajax_upload.do" method="post" id="ajaxForm" enctype="multipart/form-data">
+   		<form action="${pageContext.request.contextPath}/gallery/ajax_upload.do" method="post" id="ajaxForm" enctype="multipart/form-data">
       		<div>
          		<label for="image">이미지</label>
          		<input type="file" name="image" id="image" 

@@ -45,8 +45,8 @@
 </head>
 <body>
 <div class="container">
-   	<a href="${pageContext.request.contextPath}/gallery/private/upload_form.do">사진 업로드 하러 가기</a><br/>
-   	<a href="${pageContext.request.contextPath}/gallery/private/ajax_form.do">사진 업로드 하러 가기2</a>
+   	<a href="${pageContext.request.contextPath}/gallery/upload_form.do">사진 업로드 하러 가기</a><br/>
+   	<a href="${pageContext.request.contextPath}/gallery/ajax_form.do">사진 업로드 하러 가기2</a>
    	<h1>겔러리 목록 입니다.</h1>
    	<div class="row">
 		<c:forEach var="tmp" items="${list }">

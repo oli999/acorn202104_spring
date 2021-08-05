@@ -24,15 +24,15 @@ public class FileController {
 		return "file/list";
 	}
 	
-	@RequestMapping("/file/private/upload_form")
-	public String uploadForm() {
+	@RequestMapping("/file/upload_form")
+	public ModelAndView authUploadForm(HttpServletRequest request) {
 		
-		return "file/upload_form";
+		return new ModelAndView("file/upload_form");
 	}
 	
 	//파일 업로드 요청처리
-	@RequestMapping("/file/private/upload")
-	public ModelAndView upload(FileDto dto, ModelAndView mView,
+	@RequestMapping("/file/upload")
+	public ModelAndView authUpload(FileDto dto, ModelAndView mView,
 			HttpServletRequest request) {
 		
 		service.saveFile(dto, mView, request);
@@ -50,8 +50,8 @@ public class FileController {
 	}
 	
 	//파일 삭제 요청 처리
-	@RequestMapping("/file/private/delete")
-	public ModelAndView delete(@RequestParam int num,
+	@RequestMapping("/file/delete")
+	public ModelAndView authDelete(@RequestParam int num,
 			ModelAndView mView, HttpServletRequest request) {
 		
 		service.deleteFile(num, request);

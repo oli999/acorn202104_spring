@@ -31,33 +31,35 @@ public class GalleryController {
 	}
 	
 	//gallery 사진 업로드 form 페이지로 이동
-	@RequestMapping(value = "/gallery/private/upload_form")
-	public String uploadForm() {
-		return "gallery/upload_form";
+	@RequestMapping(value = "/gallery/upload_form")
+	public ModelAndView authUploadForm(HttpServletRequest request) {
+		
+		return new ModelAndView("gallery/upload_form");
 	}
 	
 	//gallery 사진 업로드 & DB 저장
-	@RequestMapping(value = "/gallery/private/upload")
-	public String upload(GalleryDto dto, HttpServletRequest request) {
+	@RequestMapping(value = "/gallery/upload")
+	public ModelAndView authUpload(GalleryDto dto, HttpServletRequest request) {
 		//form 에서 dto 로 데이터 받아옴
 		//dto : caption, MultipartFile image 를 가지고 있다.
 		//request :  imagePath 만드는데 사용, session 영역의 id 가져오는데 사용
 		service.saveImage(dto, request);
 		
-		return "gallery/upload";
+		return new ModelAndView("gallery/upload");
 	}
 	
 	//gallery 사진 업로드 form - ajax form
-	@RequestMapping(value = "/gallery/private/ajax_form")
-	public String ajaxForm() {
-		return "gallery/ajax_form";
+	@RequestMapping(value = "/gallery/ajax_form")
+	public ModelAndView authAjaxForm(HttpServletRequest request) {
+		
+		return new ModelAndView("gallery/ajax_form");
 	}
 
 	//gallery 사진 업로드 - ajax
 	//json 으로 return 할 것
-	@RequestMapping(value = "/gallery/private/ajax_upload")
+	@RequestMapping(value = "/gallery/ajax_upload")
 	@ResponseBody
-	public Map<String, Object> ajaxUpload(GalleryDto dto, HttpServletRequest request){		
+	public Map<String, Object> authAjaxUpload(GalleryDto dto, HttpServletRequest request){		
 		//form 에서 dto 로 데이터 받아옴
 		//dto : MultipartFile image 를 가지고 있다.
 		//request : imagePath 만드는데 사용, session 영역의 id 가져오는데 사용
@@ -66,13 +68,13 @@ public class GalleryController {
 	}
 	
 	//imagePath 구성 X -> dto 로 imagePath 를 받아서 DB 에 저장하기
-	@RequestMapping(value = "/gallery/private/insert")
-	public String insert(GalleryDto dto, HttpServletRequest request) {
+	@RequestMapping(value = "/gallery/insert")
+	public ModelAndView authInsert(GalleryDto dto, HttpServletRequest request) {
 		//dto : caption, imagePath 가지고 있다.
 		//request : dto 에 writer(id) 추가
 		service.insert(dto, request);
 		
-		return "gallery/upload";
+		return new ModelAndView("gallery/upload");
 	}
 	
 	//gallery 게시글의 num 이 parameter get 방식으로 넘어온다.

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>/views/gallery/private/upload.jsp</title>
+<title>/views/gallery/upload.jsp</title>
 </head>
 <body>
 	<script>

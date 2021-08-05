@@ -34,7 +34,7 @@
 </head>
 <body>
 <div class="container">
-	<a href="private/insertform.do">새글 작성</a>
+	<a href="insertform.do">새글 작성</a>
 	<h1>글 목록 입니다.</h1>
 	<table>
 		<thead>
