@@ -24,8 +24,9 @@ public class UsersController {
 	private UsersService service;
 	
 	//회원 탈퇴 요청 처리
-	@RequestMapping("/users/private/delete")
-	public ModelAndView delete(HttpSession session, ModelAndView mView) {
+	@RequestMapping("/users/delete")
+	public ModelAndView authDelete(HttpSession session, ModelAndView mView,
+			HttpServletRequest request) {
 		
 		service.deleteUser(session, mView);
 		
@@ -34,19 +35,21 @@ public class UsersController {
 	}
 	
 	//개인정보 수정 반영 요청 처리
-	@RequestMapping(value = "/users/private/update", method=RequestMethod.POST)
-	public String update(UsersDto dto, HttpSession session) {
+	@RequestMapping(value = "/users/update", method=RequestMethod.POST)
+	public ModelAndView authUpdate(UsersDto dto, HttpSession session,
+			HttpServletRequest request, ModelAndView mView) {
 		//서비스를 이용해서 개인정보를 수정하고 
 		service.updateUser(dto, session);
+		mView.setViewName("redirect:/users/info.do");
 		//개인정보 보기로 리다일렉트 이동 시틴다
-		return "redirect:/users/private/info.do";
+		return mView;
 	}
 	
 	//ajax 프로필 사진 업로드 요청처리
-	@RequestMapping(value = "/users/private/ajax_profile_upload",
+	@RequestMapping(value = "/users/ajax_profile_upload",
 			method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> ajaxProfileUpload(HttpServletRequest request,
+	public Map<String, Object> authAjaxProfileUpload(HttpServletRequest request,
 			@RequestParam MultipartFile image){
 		
 		//서비스를 이용해서 이미지를 upload 폴더에 저장하고 리턴되는 Map 을 리턴해서 json 문자열 응답하기
@@ -54,16 +57,17 @@ public class UsersController {
 	}
 	
 	//회원정보 수정폼 요청처리
-	@RequestMapping("/users/private/updateform")
-	public ModelAndView updateForm(ModelAndView mView, HttpSession session) {
+	@RequestMapping("/users/updateform")
+	public ModelAndView authUpdateForm(ModelAndView mView, HttpSession session,
+			HttpServletRequest request) {
 		service.getInfo(session, mView);
 		mView.setViewName("users/updateform");
 		return mView;
 	}
 	
-	@RequestMapping("/users/private/pwd_update")
-	public ModelAndView pwdUpdate(UsersDto dto, 
-			ModelAndView mView, HttpSession session) {
+	@RequestMapping("/users/pwd_update")
+	public ModelAndView authPwdUpdate(UsersDto dto, 
+			ModelAndView mView, HttpSession session, HttpServletRequest request) {
 		//서비스에 필요한 객체의 참조값을 전달해서 비밀번호 수정 로직을 처리한다.
 		service.updateUserPwd(session, dto, mView);
 		//view page 로 forward 이동해서 작업 결과를 응답한다.
@@ -71,14 +75,16 @@ public class UsersController {
 		return mView;
 	}
 	
-	@RequestMapping("/users/private/pwd_updateform")
-	public String pwdUpdateForm() {
+	@RequestMapping("/users/pwd_updateform")
+	public ModelAndView authPwdUpdateForm(ModelAndView mView, HttpServletRequest request) {
 		
-		return "users/pwd_updateform";
+		mView.setViewName("users/pwd_updateform");
+		return mView;
 	}
 	
-	@RequestMapping("/users/private/info")
-	public ModelAndView info(HttpSession session, ModelAndView mView) {
+	@RequestMapping("/users/info")
+	public ModelAndView authInfo(HttpSession session, ModelAndView mView,
+			HttpServletRequest request) {
 		
 		service.getInfo(session, mView);
 		

@@ -17,7 +17,7 @@
 		</c:when>
 		<c:otherwise>
 			<p>
-				<a href="${pageContext.request.contextPath}/users/private/info.do">${sessionScope.id }</a> 로그인중... 
+				<a href="${pageContext.request.contextPath}/users/info.do">${sessionScope.id }</a> 로그인중... 
 				<a href="${pageContext.request.contextPath}/users/logout.do">로그아웃</a>
 			</p>
 		</c:otherwise>

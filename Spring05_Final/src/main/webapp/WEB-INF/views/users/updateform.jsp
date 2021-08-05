@@ -36,7 +36,7 @@
 			</c:otherwise>
 		</c:choose>
 	</a>
-	<form action="${pageContext.request.contextPath}/users/private/update.do" method="post">
+	<form action="${pageContext.request.contextPath}/users/update.do" method="post">
 		<input type="hidden" name="profile" 
 			value="${ empty dto.profile ? '' : dto.profile}"/>
 		<div>
@@ -50,7 +50,7 @@
 		<button type="submit">수정반영</button>
 	</form>
 	
-	<form action="${pageContext.request.contextPath}/users/private/ajax_profile_upload.do" method="post" 
+	<form action="${pageContext.request.contextPath}/users/ajax_profile_upload.do" method="post" 
 				id="imageForm" enctype="multipart/form-data">
 		<input type="file" name="image" id="image" 
 			accept=".jpg, .jpeg, .png, .JPG, .JPEG, .gif"/>

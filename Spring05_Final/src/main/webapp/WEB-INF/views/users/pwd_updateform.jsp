@@ -9,7 +9,7 @@
 <body>
 <div class="container">
 	<h1>비밀 번호 수정 폼</h1>
-	<form action="${pageContext.request.contextPath}/users/private/pwd_update.do" method="post" id="myForm">
+	<form action="${pageContext.request.contextPath}/users/pwd_update.do" method="post" id="myForm">
 		<div>
 			<label for="pwd">기존 비밀 번호</label>
 			<input type="password" name="pwd" id="pwd"/>
