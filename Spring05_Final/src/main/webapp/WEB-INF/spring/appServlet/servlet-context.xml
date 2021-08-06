@@ -33,6 +33,7 @@
 		<beans:property name="configLocation"
 	value="classpath:com/gura/spring05/mybatis/Configuration.xml"/>
 	</beans:bean>
+
 	
 	<!-- 
 		SqlSession 인터페이스를 구현한 
@@ -43,6 +44,16 @@
 		<beans:constructor-arg name="sqlSessionFactory" 
 			ref="sessionFactory"/>
 	</beans:bean>
+	
+	<!-- Spring Transaction Manager 설정 -->
+	<beans:bean id="txManager" 
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<beans:property name="dataSource" ref="dataSource"/>
+	</beans:bean>
+	
+	<!-- @Transactional 어노테이션으로  트렌젝션을 관리 할수 있도록 설정-->
+	<tx:annotation-driven transaction-manager="txManager"/>
+	
 	
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	

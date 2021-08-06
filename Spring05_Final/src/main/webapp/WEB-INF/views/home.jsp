@@ -28,6 +28,7 @@
 		<li><a href="${pageContext.request.contextPath}/cafe/list.do">카페글 목록 보기</a></li>
 		<li><a href="${pageContext.request.contextPath}/aspect/home.do">로그인이 필요한 홈</a></li>
 		<li><a href="${pageContext.request.contextPath}/gallery/list.do">갤러리</a></li>
+		<li><a href="${pageContext.request.contextPath}/shop/list.do">상품목록</a></li>
 	</ul>
 	
 	<h2>공지사항</h2>
