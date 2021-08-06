@@ -10,6 +10,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.gura.spring05.exception.NotDeliveryException;
 import com.gura.spring05.shop.dao.OrderDao;
 import com.gura.spring05.shop.dao.ShopDao;
 import com.gura.spring05.shop.dto.OrderDto;
@@ -69,7 +71,14 @@ public class ShopServiceImpl implements ShopService{
 		dto2.setId(id); //누가
 		dto2.setCode(num); //어떤 상품을 
 		dto2.setAddr("강남구 삼원빌딩 5층");//어디로 배송할지
-	
+		
+		// 테스트를 위해 우연히 예외가 발생 되도록 한다. 
+		Random ran=new Random();
+		int ranNum=ran.nextInt(3);
+		
+		if(ranNum==0) {
+			throw new NotDeliveryException("택배 회사가 파업입니다. 배송이 안되요");
+		}
 		
 		orderDao.addOrder(dto2);
 	}
