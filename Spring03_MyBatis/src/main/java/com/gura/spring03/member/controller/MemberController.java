@@ -1,15 +1,18 @@
 package com.gura.spring03.member.controller;
 
+import java.util.HashMap;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.gura.spring03.member.dao.MemberDao;
 import com.gura.spring03.member.dto.MemberDto;
 import com.gura.spring03.member.service.MemberService;
 /*
@@ -30,6 +33,29 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService service;
+	
+	@Autowired
+	private MemberDao dao;
+	
+	//안드로이드에서 전송하는 회원 추가 요청을 처리하고 결과를 json 으로 응답하는 메소드
+	@RequestMapping(value = "/api/member/insert", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> insert(MemberDto dto){
+		dao.insert(dto);
+		
+		Map<String, Object> map=new HashMap<>();
+		map.put("isSuccess", true);
+		
+		return map;
+	}
+	
+	//안드로이드에서 요청하는 회원 목록 요청에 대해서 회원 목록을 json 으로 응답하는 메소드
+	@RequestMapping("/api/member/list")
+	@ResponseBody
+	public List<MemberDto> getList(){
+		
+		return dao.getList();
+	}
 	
 	
 	//회원 한명의 정보를 삭제하는 메소드
