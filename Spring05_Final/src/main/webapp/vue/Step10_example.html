@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Step10_example.html</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+<style>
+   /* card 이미지 부모요소의 높이 지정 */
+   .img-wrapper{
+      height: 250px;
+      /* transform 을 적용할대 0.3s 동안 순차적으로 적용하기 */
+      transition: transform 0.3s ease-out;
+   }
+   /* .img-wrapper 에 마우스가 hover 되었을때 적용할 css */
+   .img-wrapper:hover{
+      /* 원본 크기의 1.1 배로 확대 시키기*/
+      transform: scale(1.05);
+   }
+   
+   .card .card-text{
+      /* 한줄만 text 가 나오고  한줄 넘는 길이에 대해서는 ... 처리 하는 css */
+      display:block;
+      white-space : nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+   }
+   	.img-wrapper img{
+	   	width: 100%;
+	   	height: 100%;
+	   	/* fill | contain | cover | scale-down | none(default) */
+	   	/*	
+	   		cover - 부모의 크기에 맞게 키운 후, 자른다. 비율은 일정하게 증가한다. 
+	   		contain - 안잘린다. 대신 빈 공간이 남을 수 있다.
+	   		fill - 부모의 크기에 딱 맞게, 비율 관계 없이 맞춘다.(이미지가 일그러질 수 있다.)
+	   		scale-down - 가로, 세로 중에 큰 것을 부모의 크기에 맞춘 상태까지만 커지거나 작아지고, 비율은 일정하다.
+	   	*/
+		object-fit: contain;	
+   	}
+    
+</style>
+</head>
+<body>
+<div class="container" id="app">
+    <a v-show="!isMakeForm" @click.prevent="isMakeForm = true" class="btn btn-primary btn-sm" href="">+</a>
+    <div v-if="isMakeForm">
+        <form  action="http://localhost:8888/spring05/gallery/ajax_insert.do" 
+        		method="post" ref="insertForm">
+            <input type="hidden" name="imagePath" ref="imagePath"/>
+            <div>
+               <label for="caption">설명</label>
+               <input type="text" name="caption" id="caption"/>
+            </div>
+         </form>
+         <form action="http://localhost:8888/spring05/gallery/ajax_upload2.do" method="post" ref="ajaxForm" enctype="multipart/form-data">
+            <div>
+               <label for="image">이미지</label>
+               <input @change="uploadImage" type="file" name="image" id="image" 
+                  accept=".jpg, .jpeg, .png, .JPG, .JPEG"/>
+            </div>
+         </form>
+         <button @click="submitClicked">등록</button>
+         <div class="img-wrapper">
+            <img v-bind:src="base_url+previewImagePath"/>
+         </div>
+    </div>
+   	<h1>겔러리 목록 입니다.</h1>
+   	<div class="row">
+		
+        <div v-for="(item, index) in galleryList" v-bind:key="item.num" class="col-6 col-md-4 col-lg-3">
+            <div class="card mb-3">
+                <a @click.prevent="showDetail(index)" href="">
+                    <div class="img-wrapper">
+                        <img class="card-img-top" v-bind:src="base_url+item.imagePath"/>
+                    </div>
+                </a>
+                <div class="card-body">
+                    <p class="card-text">{{item.caption}}</p>
+                    <p class="card-text">by <strong>{{item.writer}}</strong></p>
+                    <p><small>{{item.regdate}}</small></p>
+                </div>
+            </div>
+        </div>
+   
+   	</div>
+    <nav>
+        <ul class="pagination justify-content-center">
+            
+            <li class="page-item" v-if="startPageNum != 1">
+                <a v-on:click.prevent="movePage(startPageNum-1)" class="page-link" href="">Prev</a>
+            </li>
+            <li class="page-item disabled" v-else>
+                <a class="page-link" href="javascript:">Prev</a>
+            </li>
+
+            <li v-for="i in pageNums" class="page-item" v-bind:class="{active: i == pageNum }">
+                <a v-on:click.prevent="movePage(i)"  class="page-link" href="">{{i }}</a>
+            </li>
+
+            <li class="page-item" v-if="endPageNum < totalPageCount">
+                <a v-on:click.prevent="movePage(endPageNum+1)"  class="page-link" href="">Next</a>
+            </li>
+            <li class="page-item disabled" v-else>
+                <a class="page-link" href="javascript:">Next</a>
+            </li>
+        </ul>
+    </nav>  
+    
+	<!-- Modal -->
+	<div class="modal fade" ref="detailModal">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">{{detailItem.caption}}</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+               </div>
+                <div class="modal-body">
+                    
+                    <div class="card mb-3">
+                        <div class="img-wrapper">
+                            <img class="card-img-top" v-bind:src="base_url+detailItem.imagePath"/>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">by <strong>{{detailItem.writer}}</strong></p>
+                            <p><small>{{detailItem.regdate}}</small></p>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+        </div>
+    </div>	    
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="js/gura_util.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+<script>
+
+    const base_url="http://localhost:8888/spring05";
+
+    let app=new Vue({
+        el:"#app",
+        data:{
+            galleryList:[],
+            base_url,
+            pageNum:1,
+            startPageNum:1,
+            endPageNum:5,
+            totalPageCount:0,
+            detailItem:{},
+            isMakeForm:false,  //업로드 폼을 만들지 여부
+            previewImagePath:""
+        },
+        computed:{
+            /*
+                최초 호출된 이후 
+                startPageNum 혹은 endPageNum 에 변경이 있을때만
+                다시 호출되는 함수 
+            */
+            pageNums(){
+                console.log("pageNums()");
+                const nums=[];
+                for(i=this.startPageNum; i<=this.endPageNum; i++){
+                    nums.push(i);
+                }
+                return nums;
+            }
+        },
+        methods:{
+            submitClicked(){
+            	let self=this;
+                //ref="insertForm" 인 폼을 ajax 전송한다
+            	let form=this.$refs.insertForm;
+            	ajaxFormPromise(form)
+            	.then(function(response){
+            		return response.json();
+            	})
+            	.then(function(data){
+            		//새로운 이미지 업로드 성공 이후
+            		console.log(data);
+            		//1. 업로드 폼을 숨기고, 추가 버튼을 보이게 하고 
+            		self.isMakeForm=false;
+            		//2. 겔러리 목록을 다시 받아오도록 한다.
+            		self.pageNum=1;
+            		self.updateUI();
+            	});
+            },
+            uploadImage(){
+                let self=this;
+                //폼의 참조값
+                const form=this.$refs.ajaxForm;
+                ajaxFormPromise(form)
+                .then(function(response){
+                    return response.json();
+                })
+                .then(function(data){
+                    console.log(data);
+                    //미리보기 사진이 보일수 있도록 한다.
+                    self.previewImagePath = data.imagePath;
+                    //이미지 경로가 전송될수 있도록 form 안에 input 요소의 value 에 넣어준다. 
+                    self.$refs.imagePath.value = data.imagePath;
+                });
+            },
+            showDetail(index){
+                //선택된 인덱스에 해당하는 object 를 detailItem 에 대입한다.
+                this.detailItem=this.galleryList[index];
+                //detail 모달의 참조값 얻어오기 
+                let modalElement=this.$refs.detailModal;
+                //bootstrap 모달 띄우기 
+                let modal=new bootstrap.Modal(modalElement);
+                modal.show();
+            },
+            updateUI(){
+                //겔러리 목록을 요청해서 받아온다.
+                let self=this;
+                // ajax 요청을 통해서 gallery 목록을 json 으로 받아온다.
+                ajaxPromise(base_url+"/api/gallery/list.do", "GET", "pageNum="+this.pageNum)
+                .then(function(response){
+                    return response.json();
+                })
+                .then(function(data){
+                    //data 는 gallery 목록이 들어있는 array 이다.
+                    console.log(data);
+                    self.galleryList=data;
+                });
+                //페이징 처리에 관련된 값도 요청해서 받아온다. 
+                ajaxPromise(base_url+"/api/gallery/paging.do", "GET", "pageNum="+this.pageNum)
+                .then(function(response){
+                    return response.json();
+                })
+                .then(function(data){
+                    //data 는 {"startPageNum": x, "endPageNum":x, "totalPageCount":x} 형식이다
+                    self.startPageNum=data.startPageNum;
+                    self.endPageNum=data.endPageNum;
+                    self.totalPageCount=data.totalPageCount;
+                }); 
+            },
+            movePage(pageNum){
+                //현재 페이지를 수정하고 
+                this.pageNum=pageNum;
+                //화면 업데이트
+                this.updateUI();
+            }
+        },
+        created(){
+            //화면 업데이트
+            this.updateUI();
+        }
+    });
+</script>
+</body>
+</html>
+
+
+
+

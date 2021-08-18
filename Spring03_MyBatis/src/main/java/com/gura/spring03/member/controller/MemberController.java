@@ -42,7 +42,7 @@ public class MemberController {
 	@ResponseBody
 	public Map<String, Object> insert(MemberDto dto){
 		dao.insert(dto);
-		
+		System.out.println(dto.getName());
 		Map<String, Object> map=new HashMap<>();
 		map.put("isSuccess", true);
 		

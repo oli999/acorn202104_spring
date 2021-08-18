@@ -1,5 +1,6 @@
 package com.gura.spring05.gallery.service;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,9 @@ import com.gura.spring05.gallery.dto.GalleryDto;
 public interface GalleryService {
 	//갤러리의 list 가져오기
 	public void getList(HttpServletRequest request);
+	//갤러리 목록을 리턴하는 메소드 
+	public List<GalleryDto> getList2(HttpServletRequest request);
+	
 	//갤러리에 사진 upload & DB 저장하기
 	public void saveImage(GalleryDto dto, HttpServletRequest request);
 	//갤러리에 사진 저장하기 - ajax

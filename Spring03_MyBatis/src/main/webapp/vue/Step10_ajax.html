@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step10_ajax.html</title>
+</head>
+<body>
+    <h1>ajax 요청을 통해서 받아온 데이터 사용하기</h1>
+    <div id="app">
+        <button v-on:click="getMember">회원 목록 받아오기</button>
+        <button @click="getMember">회원 목록 받아오기</button>
+        <br />
+        <table>
+        	<thead>
+        		<tr>
+        			<th>번호</th>
+        			<th>이름</th>
+        			<th>주소</th>
+        		</tr>
+        	</thead>
+        	<tbody>
+        		<tr v-for="tmp in members" v-bind:key="tmp.num">
+        			<td>{{tmp.num}}</td>
+        			<td>{{tmp.name}}</td>
+        			<td>{{tmp.addr}}</td>
+        		</tr>
+        	</tbody>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="js/gura_util.js"></script>
+    <script>
+        let app=new Vue({
+            el:"#app",
+            data:{
+            	members:[]
+            },
+            methods:{
+                getMember(){
+                	//this 즉 Vue 객체의 참조값을 self 라는 상수에 담기
+                	const self=this;
+                	
+                    //gura_util.js 에 있는 함수를 이용해서 ajax 요청하기
+                    ajaxPromise("http://localhost:8888/spring03/api/member/list.do")
+                    .then(function(response){
+                        return response.json();
+                    })
+                    .then(function(data){
+                    	//data 는 배열의 참조값 이다. 
+                        console.log(data);
+                        
+                    	//원본 배열에 아이템을 차례로 넣어주기 
+                        //for(let i=0; i<data.length; i++){
+                        //	app.members.push(data[i]);
+                        //}
+                        
+                    	//원본배열의 참조값을 새로운 배열의 참조값으로 대체해도 화면이 업데이트 된다. 
+                        //app.members=data;
+                    	self.members=data;
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
